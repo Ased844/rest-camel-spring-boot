@@ -1,0 +1,33 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"definitions": {},
+	"id": "my-schema",
+	"properties": {
+		"id": {
+			"description": "The unique identifier for a book",
+			"id": "/properties/id",
+			"type": "integer"
+		},
+		"name": {
+			"description": "Name of the book",
+			"id": "/properties/name",
+			"type": "string"
+		},
+		"author": {
+			"description": "Name of the book author",
+			"id": "/properties/author",
+			"type": "string"
+		},
+		"price": {
+			"description": "book price",
+		 	"id": "/properties/price",	
+			"type": "number"
+		}
+	},
+	"required": [
+		"id",
+		"name",
+		"author",
+		"price"
+	]
+}
