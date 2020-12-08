@@ -1,6 +1,9 @@
 package com.spring.rest.camel.api.resource;
 
+import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
+
 import org.apache.camel.BeanInject;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
@@ -62,15 +65,19 @@ public class BookResource extends RouteBuilder {
 			.to("direct:rest-in")
 			.route()
 			.process(processor)
+			.log(">>> processed")
+            .setHeader(HTTP_RESPONSE_CODE, constant(201))
 			.to("direct:rest-out")
 			.endRest();
 		
 		from("direct:rest-in")
+			.log("validating producer json with schema")
 			.marshal().json(JsonLibrary.Jackson)
 			.to("json-validator:producer-schema.json")
 			.to("direct:marshal");
 	
 		from("direct:rest-out")
+			.log("validating consumer json with schema")
 			.marshal().json(JsonLibrary.Jackson)
 			.to("json-validator:consumer-schema.json")
 			.to("direct:marshal");
